@@ -55,7 +55,7 @@ class Downloader(object):
         return self.url % {'db': self.database, 'id': language_id}
     
     @lru_cache(maxsize=2000)
-    def get(self, language_id):  # pragma: no cover
+    def get(self, language_id):
         req = requests.get(self.make_url(language_id))
         
         # fail on no content
@@ -87,9 +87,13 @@ class Parser(object):
         ]
         return all([e in adict.keys() for e in expected])
 
+    def is_location(self, adict):
+        expected = ['latitude', 'longitude']
+        return all([e in adict.keys() for e in expected])
+
     def parse(self, content):
         xml = minidom.parseString(XMLTEMPLATE % content)
-        entities = {'language': None, 'lexicon': []}
+        entities = {'language': None, 'lexicon': [], 'location': None}
         for node in xml.getElementsByTagName('record'):
             content = {}
             for child in node.childNodes:
@@ -107,14 +111,15 @@ class Parser(object):
                     data = None
 
                 content[tag] = data
-
+                
             if self.is_language(content):
                 if entities['language'] is not None:
                     raise ValueError("Encountered Duplicate Language Record")
-
                 entities['language'] = content
             elif self.is_lexicon(content):
                 entities['lexicon'].append(content)
+            elif self.is_location(content):
+                entities['location'] = content
             else:
                 raise ValueError("Unknown Record Type: %r" % content)
 
@@ -145,13 +150,19 @@ class ABVDatabase(object):
     
     def get_details(self, filename):
         return self.files[filename]['language']
-    
+
+    def get_location(self, filename):
+        return self.files[filename]['location']
+
+    def get_lexicon(self, filename):
+        return self.files[filename]['lexicon']
+
     def process(self):
         self.records = []
         CP = CognateParser(strict=self.strict, uniques=self.uniques)
         for filename in self.files:
             d = self.get_details(filename)
-            for e in self.files[filename]['lexicon']:
+            for e in self.get_lexicon(filename):
                 self.records.append(Record(
                     LID = int(d['id']),
                     ID = int(e['id']),
@@ -164,3 +175,4 @@ class ABVDatabase(object):
                     Cognacy = CP.parse_cognate(e['cognacy']),
                 ))
         return self.records
+        

@@ -8,6 +8,8 @@ class CognateParser(object):
         - strict (default=True):  remove dubious cognates (?)
         - uniques (default=True): non-cognate items get unique states
         """
+        self.uniques = uniques
+        self.strict = strict
         self.unique_id = 0
         
     def get_next_unique(self):
@@ -16,7 +18,7 @@ class CognateParser(object):
         self.unique_id = self.unique_id + 1
         return "u_%d" % self.unique_id
     
-    def parse_cognate(self, value, strict=True):
+    def parse_cognate(self, value):
         raw = value
         if isnull(value):
             return [self.get_next_unique()]
@@ -29,7 +31,7 @@ class CognateParser(object):
             # parse out subcognates
             value = [v.strip() for v in value.split(",")]
         
-            if strict:
+            if self.strict:
                 # remove dubious cognates
                 value = [v for v in value if '?' not in v]
                 # exit if all are dubious, setting to unique state

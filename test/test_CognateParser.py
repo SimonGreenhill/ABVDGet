@@ -54,7 +54,8 @@ class TestCognateParser(unittest.TestCase):
         self.assertEqual(CP.parse_cognate(''), [None])
     
     def test_dubious_with_no_strict(self):
-        self.assertEqual(CognateParser().parse_cognate('1?', strict=False), [1])
+        self.assertEqual(CognateParser(strict=False).parse_cognate('1?'), [1])
+        self.assertEqual(CognateParser(strict=False).parse_cognate('1, 2?'), [1, 2])
     
     def test_null(self):
         self.assertEqual(CognateParser().parse_cognate(None), ['u_1'])
@@ -66,8 +67,117 @@ class TestCognateParser(unittest.TestCase):
     def test_bad_cog_int(self):
         with self.assertRaises(ValueError):
             CognateParser().parse_cognate(1)
+    
+    def test_complicated_strict_unique(self):
+        CP = CognateParser(strict=True, uniques=True)
+        # # 3. right
+        # Maori    katau         5, 40
+        # Maori    matau         5
+        # South Island Maori    tika          
+        self.assertEqual(CP.parse_cognate('5, 40'), [5, 40])
+        self.assertEqual(CP.parse_cognate('5'), [5])
+        self.assertEqual(CP.parse_cognate(''), ['u_1'])
+        
+        # # 8. turn
+        # Maori    huri         15
+        # South Island Maori    tahuli         15
+        # South Island Maori    tahuri    to turn, to turn around    15
+        self.assertEqual(CP.parse_cognate('15'), [15])
+        self.assertEqual(CP.parse_cognate('15'), [15])
+        self.assertEqual(CP.parse_cognate('15'), [15])
+        
+        # # 20. to know
+        # Maori    moohio         52
+        # South Island Maori    matau         1
+        # South Island Maori    mohio    to know    52
+        # South Island Maori    ara    to know, to awake     
+        self.assertEqual(CP.parse_cognate('52'), [52])
+        self.assertEqual(CP.parse_cognate('1'), [1])
+        self.assertEqual(CP.parse_cognate('52'), [52])
+        self.assertEqual(CP.parse_cognate(''), ["u_2"])
 
+        # # 36: to spit
+        # Maori    tuha         19, 34?
+        # South Island Maori    huare         18
+        # South Island Maori    tuha    to expectorate, to spit    19, 34?
+        self.assertEqual(CP.parse_cognate('19, 34?'), [19])
+        self.assertEqual(CP.parse_cognate('18'), [18])
+        self.assertEqual(CP.parse_cognate('19, 34?'), [19])
 
+    def test_complicated_nostrict_unique(self):
+        CP = CognateParser(strict=False, uniques=True)
+        # # 3. right
+        # Maori    katau         5, 40
+        # Maori    matau         5
+        # South Island Maori    tika          
+        self.assertEqual(CP.parse_cognate('5, 40'), [5, 40])
+        self.assertEqual(CP.parse_cognate('5'), [5])
+        self.assertEqual(CP.parse_cognate(''), ['u_1'])
+        
+        # # 8. turn
+        # Maori    huri         15
+        # South Island Maori    tahuli         15
+        # South Island Maori    tahuri    to turn, to turn around    15
+        self.assertEqual(CP.parse_cognate('15'), [15])
+        self.assertEqual(CP.parse_cognate('15'), [15])
+        self.assertEqual(CP.parse_cognate('15'), [15])
+        
+        # # 20. to know
+        # Maori    moohio         52
+        # South Island Maori    matau         1
+        # South Island Maori    mohio    to know    52
+        # South Island Maori    ara    to know, to awake     
+        self.assertEqual(CP.parse_cognate('52'), [52])
+        self.assertEqual(CP.parse_cognate('1'), [1])
+        self.assertEqual(CP.parse_cognate('52'), [52])
+        self.assertEqual(CP.parse_cognate(''), ["u_2"])
+
+        # # 36: to spit
+        # Maori    tuha         19, 34?
+        # South Island Maori    huare         18
+        # South Island Maori    tuha    to expectorate, to spit    19, 34?
+        self.assertEqual(CP.parse_cognate('19, 34?'), [19, 34])
+        self.assertEqual(CP.parse_cognate('18'), [18])
+        self.assertEqual(CP.parse_cognate('19, 34?'), [19, 34])
+
+    def test_complicated_nostrict_nounique(self):
+        CP = CognateParser(strict=False, uniques=False)
+        # # 3. right
+        # Maori    katau         5, 40
+        # Maori    matau         5
+        # South Island Maori    tika          
+        self.assertEqual(CP.parse_cognate('5, 40'), [5, 40])
+        self.assertEqual(CP.parse_cognate('5'), [5])
+        self.assertEqual(CP.parse_cognate(''), [None])
+        
+        # # 8. turn
+        # Maori    huri         15
+        # South Island Maori    tahuli         15
+        # South Island Maori    tahuri    to turn, to turn around    15
+        self.assertEqual(CP.parse_cognate('15'), [15])
+        self.assertEqual(CP.parse_cognate('15'), [15])
+        self.assertEqual(CP.parse_cognate('15'), [15])
+        
+        # # 20. to know
+        # Maori    moohio         52
+        # South Island Maori    matau         1
+        # South Island Maori    mohio    to know    52
+        # South Island Maori    ara    to know, to awake     
+        self.assertEqual(CP.parse_cognate('52'), [52])
+        self.assertEqual(CP.parse_cognate('1'), [1])
+        self.assertEqual(CP.parse_cognate('52'), [52])
+        self.assertEqual(CP.parse_cognate(''), [None])
+
+        # # 36: to spit
+        # Maori    tuha         19, 34?
+        # South Island Maori    huare         18
+        # South Island Maori    tuha    to expectorate, to spit    19, 34?
+        self.assertEqual(CP.parse_cognate('19, 34?'), [19, 34])
+        self.assertEqual(CP.parse_cognate('18'), [18])
+        self.assertEqual(CP.parse_cognate('19, 34?'), [19, 34])
+        
+        
+        
 if __name__ == '__main__':
     unittest.main()
 

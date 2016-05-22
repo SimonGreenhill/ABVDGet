@@ -36,6 +36,13 @@ LNG = {
     'id': '99'
 }
 
+LOC = {
+    'latitude': '-21.53484700204878876661',
+    'longitude': '167.98095703125000000000',
+}
+
+
+
 XML_DUPLICATE_LANGUAGE = """
 <record>
 	<id>99</id>
@@ -139,16 +146,27 @@ class Test_Parser(unittest.TestCase):
         cls.result = Parser().parse(content)
     
     def test_is_lexicon(self):
-        self.assertTrue(Parser().is_lexicon(LEX))
         self.assertFalse(Parser().is_lexicon(LNG))
+        self.assertFalse(Parser().is_lexicon(LOC))
+        self.assertTrue(Parser().is_lexicon(LEX))
         
     def test_is_language(self):
         self.assertTrue(Parser().is_language(LNG))
+        self.assertFalse(Parser().is_language(LOC))
         self.assertFalse(Parser().is_language(LEX))
     
+    def test_is_location(self):
+        self.assertFalse(Parser().is_location(LNG))
+        self.assertTrue(Parser().is_location(LOC))
+        self.assertFalse(Parser().is_location(LEX))
+        
     def test_parse_language(self):
         for k in LNG:
             self.assertEqual(LNG[k], self.result['language'][k])
+    
+    def test_parse_location(self):
+        for k in LOC:
+            self.assertEqual(LOC[k], self.result['location'][k])
     
     def test_lexicon_count(self):
         self.assertEqual(len(self.result['lexicon']), 4)
