@@ -1,0 +1,55 @@
+{
+  "language": {
+    "author": "Blust",
+    "checkedby": "Simon Greenhill",
+    "classification": "Austronesian, Malayo-Polynesian, Central-Eastern Malayo-Polynesian, Eastern Malayo-Polynesian, Oceanic, Central-Eastern Oceanic, Remote Oceanic, Loyalty Islands",
+    "id": "99",
+    "language": "Nengone",
+    "notes": null,
+    "problems": null,
+    "silcode": "nen",
+    "typedby": "Penny Keenan"
+  },
+  "lexicon": [
+    {
+      "annotation": "arm and hand",
+      "cognacy": "1",
+      "id": "99",
+      "item": "nin",
+      "loan": null,
+      "pmpcognacy": null,
+      "word": "hand",
+      "word_id": "1"
+    },
+    {
+      "annotation": null,
+      "cognacy": "13",
+      "id": "93340",
+      "item": "iñtërnâtiônàlizætiøn",
+      "loan": null,
+      "pmpcognacy": null,
+      "word": "leg/foot",
+      "word_id": "4"
+    },
+    {
+      "annotation": null,
+      "cognacy": null,
+      "id": "90697",
+      "item": "kaka",
+      "loan": null,
+      "pmpcognacy": null,
+      "word": "to eat",
+      "word_id": "37"
+    },
+    {
+      "annotation": null,
+      "cognacy": "1",
+      "id": "70785",
+      "item": "tini",
+      "loan": null,
+      "pmpcognacy": "1?",
+      "word": "Three",
+      "word_id": "199"
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+<record>
+	<id>99</id>
+	<language>Nengone</language>
+	<author>Blust</author>
+	<silcode>nen</silcode>
+	<notes></notes>
+	<problems></problems>
+	<classification>Austronesian, Malayo-Polynesian, Central-Eastern Malayo-Polynesian, Eastern Malayo-Polynesian, Oceanic, Central-Eastern Oceanic, Remote Oceanic, Loyalty Islands</classification>
+	<typedby>Penny Keenan</typedby>
+	<checkedby>Simon Greenhill</checkedby>
+</record>
+
+<record>
+	<id>99</id>
+	<word_id>1</word_id>
+	<word>hand</word>
+	<item>nin</item>
+	<annotation>arm and hand</annotation>
+	<loan></loan>
+	<cognacy>1</cognacy>
+	<pmpcognacy></pmpcognacy>
+</record>
+
+<record>
+	<id>93340</id>
+	<word_id>4</word_id>
+	<word>leg/foot</word>
+	<item>iñtërnâtiônàlizætiøn</item>
+	<annotation></annotation>
+	<loan></loan>
+	<cognacy>13</cognacy>
+	<pmpcognacy></pmpcognacy>
+</record>
+
+
+<record>
+	<id>90697</id>
+	<word_id>37</word_id>
+	<word>to eat</word>
+	<item>kaka</item>
+	<annotation></annotation>
+	<loan></loan>
+	<cognacy></cognacy>
+	<pmpcognacy></pmpcognacy>
+</record>
+
+
+<record>
+	<id>70785</id>
+	<word_id>199</word_id>
+	<word>Three</word>
+	<item>tini</item>
+	<annotation></annotation>
+	<loan></loan>
+	<cognacy>1</cognacy>
+	<pmpcognacy>1?</pmpcognacy>
+</record>
+
