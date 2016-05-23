@@ -31,14 +31,22 @@ class TestCognateParser(unittest.TestCase):
         # state instead
         self.assertEqual(CognateParser().parse_cognate('1?, 2?'), ['u_1'])
     
-    def test_bad_entries(self):
+    def test_bad_entries_uniques(self):
         # coded as x
-        self.assertEqual(CognateParser().parse_cognate('X'), [])
-        self.assertEqual(CognateParser().parse_cognate('x'), [])
-    
-    def test_s_entries(self):
+        self.assertEqual(CognateParser(uniques=True).parse_cognate('X'), ['u_1'])
+        self.assertEqual(CognateParser(uniques=True).parse_cognate('x'), ['u_1'])
+
+    def test_bad_entries_nouniques(self):
+        self.assertEqual(CognateParser(uniques=False).parse_cognate('X'), [])
+        self.assertEqual(CognateParser(uniques=False).parse_cognate('x'), [])
+
+    def test_s_entries_uniques(self):
         # entries that are in the wrong word (e.g. you sg. not you pl.)
-        self.assertEqual(CognateParser().parse_cognate('s'), [])
+        self.assertEqual(CognateParser(uniques=True).parse_cognate('s'), ['u_1'])
+
+    def test_s_entries_nouniques(self):
+        # entries that are in the wrong word (e.g. you sg. not you pl.)
+        self.assertEqual(CognateParser(uniques=False).parse_cognate('s'), [])
     
     def test_add_unique(self):
         CP = CognateParser()
@@ -49,9 +57,9 @@ class TestCognateParser(unittest.TestCase):
 
     def test_no_uniques(self):
         CP = CognateParser(uniques=False)
-        self.assertEqual(CP.parse_cognate(''), [None])
-        self.assertEqual(CP.parse_cognate(''), [None])
-        self.assertEqual(CP.parse_cognate(''), [None])
+        self.assertEqual(CP.parse_cognate(''), [])
+        self.assertEqual(CP.parse_cognate(''), [])
+        self.assertEqual(CP.parse_cognate(''), [])
     
     def test_dubious_with_no_strict(self):
         self.assertEqual(CognateParser(strict=False).parse_cognate('1?'), [1])
@@ -148,7 +156,7 @@ class TestCognateParser(unittest.TestCase):
         # South Island Maori    tika          
         self.assertEqual(CP.parse_cognate('5, 40'), [5, 40])
         self.assertEqual(CP.parse_cognate('5'), [5])
-        self.assertEqual(CP.parse_cognate(''), [None])
+        self.assertEqual(CP.parse_cognate(''), [])
         
         # # 8. turn
         # Maori    huri         15
@@ -166,7 +174,7 @@ class TestCognateParser(unittest.TestCase):
         self.assertEqual(CP.parse_cognate('52'), [52])
         self.assertEqual(CP.parse_cognate('1'), [1])
         self.assertEqual(CP.parse_cognate('52'), [52])
-        self.assertEqual(CP.parse_cognate(''), [None])
+        self.assertEqual(CP.parse_cognate(''), [])
 
         # # 36: to spit
         # Maori    tuha         19, 34?

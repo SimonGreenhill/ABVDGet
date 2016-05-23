@@ -13,19 +13,21 @@ class CognateParser(object):
         self.unique_id = 0
         
     def get_next_unique(self):
-        if not self.uniques:
-            return None
+        if not self.uniques: 
+            return []
         self.unique_id = self.unique_id + 1
-        return "u_%d" % self.unique_id
+        return ["u_%d" % self.unique_id]
     
     def parse_cognate(self, value):
         raw = value
         if isnull(value):
-            return [self.get_next_unique()]
+            return self.get_next_unique()
         elif value == '':
-            return [self.get_next_unique()]
-        elif value == 's':
-            return []   # error
+            return self.get_next_unique()
+        elif str(value).lower() == 's': # error
+            return self.get_next_unique()
+        elif str(value).lower() == 'x': # error
+            return self.get_next_unique()
         elif isinstance(value, str):
             value = value.replace('.', ',')
             # parse out subcognates
@@ -36,12 +38,10 @@ class CognateParser(object):
                 value = [v for v in value if '?' not in v]
                 # exit if all are dubious, setting to unique state
                 if len(value) == 0:
-                    return [self.get_next_unique()]
+                    return self.get_next_unique()
             else:
                 value = [v.replace("?", "") for v in value]
-        
-            # remove BAD cognates (i.e. where entries are wrong
-            value = [v for v in value if v.lower() != 'x']
+            
             # remove any empty things in the list
             value = [v for v in value if len(v) > 0]
         
