@@ -14,7 +14,7 @@ d.write("99.json")
 ## Process data into useable format:
 
 ```
-db = Database(
+db = ABVDatabase(
     strict=True,  # Strict cognate coding (i.e. ignore dubious items like 1?)
     uniques=True, # encode non-cognate items as unique states.
 )
