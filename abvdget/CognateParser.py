@@ -49,11 +49,11 @@ class CognateParser(object):
             
             if self.check:
                 try:
-                    value = [int(v) for v in value]
+                    return [int(v) for v in value]
                 except:
                     raise ValueError("Cognate is incorrect: %r" % raw)
-        
-            return value
+            else:
+                return value
         else:
             raise ValueError("%s" % type(value))
 

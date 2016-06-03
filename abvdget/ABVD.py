@@ -136,10 +136,12 @@ class ABVDatabase(object):
     def __init__(self, files=None, check=True, strict=True, uniques=True):
         self.files = {}
         self.records = None
+        
         # set cognate parser settings
         self.strict = strict
         self.uniques = uniques
         self.check = check
+        
         if files:
             for f in files:
                 self.load(f)

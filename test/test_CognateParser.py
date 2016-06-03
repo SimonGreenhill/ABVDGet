@@ -73,7 +73,9 @@ class TestCognateParser(unittest.TestCase):
             CognateParser().parse_cognate('A')
     
     def test_checkFalse(self):
-        CognateParser(check=False).parse_cognate('A')
+        CognateParser(check=False).parse_cognate('A') == ['A']
+        CognateParser(check=False).parse_cognate('1, a') == ['1, a']
+        CognateParser(check=False).parse_cognate('1a') == ['1a']
     
     def test_bad_cog_int(self):
         with self.assertRaises(ValueError):
