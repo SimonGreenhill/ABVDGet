@@ -3,14 +3,13 @@ from setuptools import setup, find_packages
 from codecs import open
 from os import path
 
-
 here = path.abspath(path.dirname(__file__))
 
-VERSION = 1.01
+from abvdget import __version__
 
 setup(
     name='abvdget',
-    version=VERSION,
+    version=__version__,
     description="abvdget - download data from the Austronesian Basic Vocabulary Database",
     url='',
     author='Simon J. Greenhill',

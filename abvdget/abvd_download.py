@@ -1,8 +1,11 @@
+#!/usr/bin/env python3
+#coding=utf-8
 import sys
 import codecs
 import argparse
 
 from .ABVD import DATABASES, Downloader
+from . import __version__
 
 def parse_args(args):
     """
@@ -11,6 +14,7 @@ def parse_args(args):
     Returns a tuple of (inputfile, method, outputfile)
     """
     parser = argparse.ArgumentParser(description='Downloads data from the ABVD')
+    parser.add_argument('--version', action='version', version='%s' % __version__)
     parser.add_argument("database", help="database", choices=DATABASES)
     parser.add_argument("language", help="language", type=int)
     parser.add_argument(
