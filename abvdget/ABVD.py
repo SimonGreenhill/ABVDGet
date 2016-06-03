@@ -133,13 +133,13 @@ class Parser(object):
 
 
 class ABVDatabase(object):
-    def __init__(self, files=None, strict=True, uniques=True):
+    def __init__(self, files=None, check=True, strict=True, uniques=True):
         self.files = {}
         self.records = None
         # set cognate parser settings
         self.strict = strict
         self.uniques = uniques
-        
+        self.check = check
         if files:
             for f in files:
                 self.load(f)
@@ -159,7 +159,7 @@ class ABVDatabase(object):
 
     def process(self):
         self.records = []
-        CP = CognateParser(strict=self.strict, uniques=self.uniques)
+        CP = CognateParser(check=self.check, strict=self.strict, uniques=self.uniques)
         for filename in self.files:
             d = self.get_details(filename)
             for e in self.get_lexicon(filename):

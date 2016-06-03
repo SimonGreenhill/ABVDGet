@@ -1,13 +1,15 @@
 from pandas import isnull
 
 class CognateParser(object):
-    def __init__(self, strict=True, uniques=True):
+    def __init__(self, check=True, strict=True, uniques=True):
         """
         Parses cognates. 
         
+        - check (default=True); check cognates
         - strict (default=True):  remove dubious cognates (?)
         - uniques (default=True): non-cognate items get unique states
         """
+        self.check = check
         self.uniques = uniques
         self.strict = strict
         self.unique_id = 0
@@ -44,11 +46,12 @@ class CognateParser(object):
             
             # remove any empty things in the list
             value = [v for v in value if len(v) > 0]
-        
-            try:
-                value = [int(v) for v in value]
-            except:
-                raise ValueError("Cognate is incorrect: %r" % raw)
+            
+            if self.check:
+                try:
+                    value = [int(v) for v in value]
+                except:
+                    raise ValueError("Cognate is incorrect: %r" % raw)
         
             return value
         else:
