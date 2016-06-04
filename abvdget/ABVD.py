@@ -24,7 +24,7 @@ XMLTEMPLATE = """
 
 DATABASES = [
     'austronesian',
-    'bantu',
+    'bant',
     'mayan',
     'utoaztecan',
 ]
@@ -75,18 +75,26 @@ class Downloader(object):
 class Parser(object):
     def is_language(self, adict):
         expected = [
-            u'checkedby', u'language', u'classification', u'author',
-            u'silcode', u'notes', u'typedby', u'id', u'problems'
+            'id', 'checkedby', 'language', 'classification', 'author',
+            'silcode', 'notes', 'typedby', 'problems'
         ]
         return all([e in adict.keys() for e in expected])
 
     def is_lexicon(self, adict):
         expected = [
-            u'cognacy', u'word', u'loan', u'id',
-            u'item', u'pmpcognacy', u'annotation', u'word_id'
+            'id', 'word_id', 'word',
+            'item', 'annotation', 'loan', 'cognacy', 'pmpcognacy',
         ]
         return all([e in adict.keys() for e in expected])
-
+    
+    def is_lexicon_2(self, adict):
+        expected = [
+            'id', 'word_id', 'word',
+            'source_id', 'source', 
+            'item', 'annotation', 'loan', 'cognacy',
+        ]
+        return all([e in adict.keys() for e in expected])
+    
     def is_location(self, adict):
         expected = ['latitude', 'longitude']
         return all([e in adict.keys() for e in expected])
@@ -111,12 +119,14 @@ class Parser(object):
                     data = None
 
                 content[tag] = data
-                
+            
             if self.is_language(content):
                 if entities['language'] is not None:
                     raise ValueError("Encountered Duplicate Language Record")
                 entities['language'] = content
             elif self.is_lexicon(content):
+                entities['lexicon'].append(content)
+            elif self.is_lexicon_2(content):
                 entities['lexicon'].append(content)
             elif self.is_location(content):
                 entities['location'] = content
