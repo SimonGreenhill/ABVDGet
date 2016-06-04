@@ -1,4 +1,3 @@
-from pandas import isnull
 
 class CognateParser(object):
     def __init__(self, check=True, strict=True, uniques=True):
@@ -12,6 +11,7 @@ class CognateParser(object):
         self.check = check
         self.uniques = uniques
         self.strict = strict
+        
         self.unique_id = 0
         
     def get_next_unique(self):
@@ -22,7 +22,7 @@ class CognateParser(object):
     
     def parse_cognate(self, value):
         raw = value
-        if isnull(value):
+        if value is None:
             return self.get_next_unique()
         elif value == '':
             return self.get_next_unique()
@@ -34,7 +34,7 @@ class CognateParser(object):
             value = value.replace('.', ',')
             # parse out subcognates
             value = [v.strip() for v in value.split(",")]
-        
+            
             if self.strict:
                 # remove dubious cognates
                 value = [v for v in value if '?' not in v]

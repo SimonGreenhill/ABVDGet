@@ -33,7 +33,7 @@ setup(
     ],
     keywords='austronesian data API',
     packages=find_packages(),
-    install_requires=[],
+    install_requires=['requests',],
     entry_points={
         'console_scripts': [
             'abvd_download = abvdget.abvd_download:main'
