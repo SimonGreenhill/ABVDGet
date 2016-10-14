@@ -31,7 +31,9 @@ class CognateParser(object):
         elif str(value).lower() == 'x': # error
             return self.get_next_unique()
         elif isinstance(value, str):
-            value = value.replace('.', ',')
+            if value.startswith(","):
+                raise ValueError("Possible broken combined cognate %r" % raw)
+            value = value.replace('.', ',').replace("/", ",")
             # parse out subcognates
             value = [v.strip() for v in value.split(",")]
             
@@ -51,7 +53,7 @@ class CognateParser(object):
                 try:
                     return [int(v) for v in value]
                 except:
-                    raise ValueError("Cognate is incorrect: %r" % raw)
+                    raise ValueError("Cognate is not numeric: %r" % raw)
             else:
                 return value
         else:

@@ -24,7 +24,7 @@ XMLTEMPLATE = """
 
 DATABASES = [
     'austronesian',
-    'bant',
+    'bantu',
     'mayan',
     'utoaztecan',
 ]
@@ -61,8 +61,13 @@ class Downloader(object):
         # fail on no content
         if len(req.content) == 0:
             return None
+        
+        try:
+            content = req.content.decode('utf8')
+        except:
+            raise
             
-        self.data = Parser().parse(req.content.decode('utf8'))
+        self.data = Parser().parse(content)
         return self.data
     
     def write(self, filename):
