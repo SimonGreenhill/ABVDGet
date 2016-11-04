@@ -6,12 +6,41 @@ import codecs
 import unicodedata
 from xml.dom import minidom
 from functools import lru_cache
-from collections import namedtuple
 
 import requests
 
 from .tools import slugify, clean
 
+
+class Record(object):
+    def __init__(self,
+        ID=None, LID=None, WID=None, Language=None, Word=None, Item=None,
+        Annotation=None, Loan=None, Cognacy=None
+    ):
+        self.ID = ID
+        self.LID = LID
+        self.WID = WID
+        self.Language = Language
+        self.Word = Word
+        self.Item = Item
+        self.Annotation = Annotation
+        self.Loan = Loan
+        self.Cognacy = Cognacy
+    
+    def __repr__(self):
+        return "<Record %s - %s - %s - %s>" % (self.ID, self.Language, self.Word, self.Item)
+    
+    @property
+    def is_loan(self):
+        if self.Loan is None:
+            return False
+        elif self.Loan in (False, ""):
+            return False
+        elif self.Loan is True:
+            return True
+        else:
+            return True
+    
 
 XMLTEMPLATE = """
 <?xml version="1.0" encoding="utf-8"?>
