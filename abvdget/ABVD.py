@@ -12,6 +12,23 @@ import requests
 from .tools import slugify, clean
 
 
+XMLTEMPLATE = """
+<?xml version="1.0" encoding="utf-8"?>
+<abvd>
+    %s
+</abvd>
+""".lstrip().rstrip()
+
+
+DATABASES = [
+    'austronesian',
+    'bantu',
+    'mayan',
+    'utoaztecan',
+]
+
+
+
 class Record(object):
     def __init__(self,
         ID=None, LID=None, WID=None, Language=None, Word=None, Item=None,
@@ -41,25 +58,6 @@ class Record(object):
         else:
             return True
     
-
-XMLTEMPLATE = """
-<?xml version="1.0" encoding="utf-8"?>
-<abvd>
-    %s
-</abvd>
-""".lstrip().rstrip()
-
-
-DATABASES = [
-    'austronesian',
-    'bantu',
-    'mayan',
-    'utoaztecan',
-]
-
-Record = namedtuple("Record", [
-    'LID', 'ID', 'WID', 'Language', 'Word', 'Item', 'Annotation', 'Cognacy', 'Loan'
-])
 
 
 
