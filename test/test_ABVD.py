@@ -9,7 +9,7 @@ EXPECTED = {
     99: {
         "LID": 99,
         "Annotation": "arm and hand",
-        "Cognacy": [1],
+        "Cognacy": '1',
         "Item": "nin",
         "Loan": None,
         "Word": "hand",
@@ -18,7 +18,7 @@ EXPECTED = {
     93340: {
         "LID": 99,
         "Annotation": None,
-        "Cognacy": [13],
+        "Cognacy": '13',
         "Item": "iñtërnâtiônàlizætiøn",
         "Loan": None,
         "Word": "leg/foot",
@@ -27,7 +27,7 @@ EXPECTED = {
     90697: {
         "LID": 99,
         "Annotation": None,
-        "Cognacy": ['u_1'],  # unique
+        "Cognacy": None,
         "Item": "kaka",
         "Loan": None,
         "Word": "to eat",
@@ -36,7 +36,7 @@ EXPECTED = {
     70785: {
         "LID": 99,
         "Annotation": None,
-        "Cognacy": [1],
+        "Cognacy": '1',
         "Item": "tini",
         "Loan": None,
         "Word": "Three",

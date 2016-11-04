@@ -10,7 +10,6 @@ from collections import namedtuple
 
 import requests
 
-from .CognateParser import CognateParser
 from .tools import slugify, clean
 
 
@@ -55,7 +54,7 @@ class Downloader(object):
         return self.url % {'db': self.database, 'id': language_id}
     
     @lru_cache(maxsize=2000)
-    def get(self, language_id):
+    def get(self, language_id):  # pragma: no cover
         req = requests.get(self.make_url(language_id))
         
         # fail on no content
@@ -70,7 +69,7 @@ class Downloader(object):
         self.data = Parser().parse(content)
         return self.data
     
-    def write(self, filename):
+    def write(self, filename):  # pragma: no cover
         with codecs.open(filename, 'w', encoding="utf8") as handle:
             handle.write(
                 json.dumps(self.data, sort_keys=True, indent=2, separators=(',', ': '), ensure_ascii=False)
@@ -148,11 +147,9 @@ class Parser(object):
 
 
 class ABVDatabase(object):
-    def __init__(self, files=None, check=True, strict=True, uniques=True, cognateParser=CognateParser):
+    def __init__(self, files=None, check=True, strict=True, uniques=True):
         self.files = {}
         self.records = None
-        
-        self.parser = cognateParser(check=check, strict=strict, uniques=uniques)
         
         if files:
             for f in files:
@@ -176,7 +173,6 @@ class ABVDatabase(object):
         for filename in self.files:
             d = self.get_details(filename)
             for e in self.get_lexicon(filename):
-                cog = self.parser.parse_cognate(e['cognacy'])
                 self.records.append(Record(
                     LID = int(d['id']),
                     ID = int(e['id']),
@@ -186,7 +182,7 @@ class ABVDatabase(object):
                     Item = e['item'],
                     Annotation = e['annotation'],
                     Loan = e['loan'],
-                    Cognacy = cog,
+                    Cognacy = e['cognacy'],
                 ))
         return self.records
         
