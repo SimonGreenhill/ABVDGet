@@ -24,8 +24,3 @@ class Test_Downloader(unittest.TestCase):
         url = Downloader('bantu').make_url('999')
         assert url.endswith('999')
         assert 'bantu' in url
-
-
-if __name__ == '__main__':
-    unittest.main()
-

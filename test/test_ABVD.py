@@ -1,7 +1,7 @@
 import os
 import unittest
 
-from abvdget import ABVDatabase
+from abvdget import ABVDatabase, Record
 
 TESTDATA = os.path.join(os.path.dirname(__file__), 'nengone.json')
 
@@ -72,4 +72,3 @@ class TestABVD(unittest.TestCase):
                     EXPECTED[r.ID][k],
                     getattr(r, k)
                 )
-

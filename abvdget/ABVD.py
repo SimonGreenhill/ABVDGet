@@ -9,7 +9,7 @@ from functools import lru_cache
 
 try:
     import requests
-except ImportError:
+except ImportError:  # pragma: no cover
     pass
     
 from .tools import slugify, clean
@@ -63,6 +63,13 @@ class Record(object):
         else:
             return True
     
+    def get_taxon(self):
+        if self.LID is None:
+            return self.Language
+        else:
+            return "%s_%d" % (self.Language, self.LID)
+
+
 
 class Downloader(object):
     

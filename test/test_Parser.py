@@ -179,6 +179,20 @@ class Test_Parser(unittest.TestCase):
         assert lex['annotation'] == 'arm and hand'
         assert lex['cognacy'] == '1'
     
+    def test_lexicon_2(self):
+        o = {
+            "id": "99",
+            "word": "hand",
+            "word_id": "1",
+            "source": 'greenhill2011',
+            "source_id": '1',
+            "annotation": "arm and hand",
+            "cognacy": "1",
+            "item": "nin",
+            "loan": None,
+        }
+        assert Parser().is_lexicon_2(o)
+    
     def test_empty_cells_are_none(self):
         lex = self.result['lexicon'][0]
         assert lex['id'] == '99'
@@ -204,8 +218,3 @@ class Test_Parser(unittest.TestCase):
     def test_no_lexicon(self):
         with self.assertRaises(ValueError):
             Parser().parse(XML_NO_LEXICON)
-    
-
-if __name__ == '__main__':
-    unittest.main()
-
