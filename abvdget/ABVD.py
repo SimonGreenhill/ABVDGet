@@ -7,9 +7,14 @@ import unicodedata
 from xml.dom import minidom
 from functools import lru_cache
 
-import requests
-
+try:
+    import requests
+except ImportError:
+    pass
+    
 from .tools import slugify, clean
+
+URL = "http://language.psy.auckland.ac.nz/utils/save/?type=xml&section=%(db)s&language=%(id)d"
 
 
 XMLTEMPLATE = """
@@ -59,19 +64,17 @@ class Record(object):
             return True
     
 
-
-
 class Downloader(object):
-    url = "http://language.psy.auckland.ac.nz/utils/save/?type=xml&section=%(db)s&language=%(id)d"
     
     databases = DATABASES
     
-    def __init__(self, database):
+    def __init__(self, database, url=URL):
         if database not in self.databases:
             raise ValueError("Unknown Database: %s" % database)
         self.database = database
         self.data = None
-    
+        self.url = URL
+        
     def make_url(self, language_id):
         try:
             language_id = int(language_id)
