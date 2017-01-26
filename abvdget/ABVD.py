@@ -117,7 +117,7 @@ class Parser(object):
     def is_language(self, adict):
         expected = [
             'id', 'checkedby', 'language', 'classification', 'author',
-            'silcode', 'notes', 'typedby', 'problems'
+            'silcode', 'glottocode', 'notes', 'typedby', 'problems'
         ]
         return all([e in adict.keys() for e in expected])
 

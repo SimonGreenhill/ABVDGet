@@ -43,3 +43,7 @@ class Test_Slugify(unittest.TestCase):
     
     def test_apostrophe(self):
         self.assertEqual(slugify('V’ënen Taut'), 'Venen_Taut')
+        
+    def test_B(self):
+        self.assertEqual(slugify('ßatarobu'), 'Vatarobu')
+        

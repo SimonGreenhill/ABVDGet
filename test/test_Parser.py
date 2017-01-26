@@ -31,6 +31,7 @@ LNG = {
     'checkedby': 'Simon Greenhill',
     'problems': None,
     'silcode': 'nen',
+    'glottocode': 'neng1238',
     'author': 'Blust',
     'language': 'Nengone',
     'id': '99'
@@ -45,64 +46,67 @@ LOC = {
 
 XML_DUPLICATE_LANGUAGE = """
 <record>
-	<id>99</id>
-	<language>Nengone</language>
-	<author>Blust</author>
-	<silcode>nen</silcode>
-	<notes></notes>
-	<problems></problems>
-	<classification></classification>
-	<typedby>Penny Keenan</typedby>
-	<checkedby>Simon Greenhill</checkedby>
+    <id>99</id>
+    <language>Nengone</language>
+    <author>Blust</author>
+    <silcode>nen</silcode>
+    <glottocode>neng1238</glottocode>
+    <notes></notes>
+    <problems></problems>
+    <classification></classification>
+    <typedby>Penny Keenan</typedby>
+    <checkedby>Simon Greenhill</checkedby>
 </record>
 
 <record>
-	<id>99</id>
-	<language>Nengone</language>
-	<author>Blust</author>
-	<silcode>nen</silcode>
-	<notes></notes>
-	<problems></problems>
-	<classification></classification>
-	<typedby>Penny Keenan</typedby>
-	<checkedby>Simon Greenhill</checkedby>
+    <id>99</id>
+    <language>Nengone</language>
+    <author>Blust</author>
+    <silcode>nen</silcode>
+    <glottocode>neng1238</glottocode>
+    <notes></notes>
+    <problems></problems>
+    <classification></classification>
+    <typedby>Penny Keenan</typedby>
+    <checkedby>Simon Greenhill</checkedby>
 </record>
 
 <record>
-	<id>93340</id>
-	<word_id>4</word_id>
-	<word>leg/foot</word>
-	<item>iñtërnâtiônàlizætiøn</item>
-	<annotation></annotation>
-	<loan></loan>
-	<cognacy>13</cognacy>
-	<pmpcognacy></pmpcognacy>
+    <id>93340</id>
+    <word_id>4</word_id>
+    <word>leg/foot</word>
+    <item>iñtërnâtiônàlizætiøn</item>
+    <annotation></annotation>
+    <loan></loan>
+    <cognacy>13</cognacy>
+    <pmpcognacy></pmpcognacy>
 </record>
 
 """
 
 XML_UNKNOWN_RECORD = """
 <record>
-	<id>99</id>
-	<language>Nengone</language>
-	<author>Blust</author>
-	<silcode>nen</silcode>
-	<notes></notes>
-	<problems></problems>
-	<classification></classification>
-	<typedby>Penny Keenan</typedby>
-	<checkedby>Simon Greenhill</checkedby>
+    <id>99</id>
+    <language>Nengone</language>
+    <author>Blust</author>
+    <silcode>nen</silcode>
+    <glottocode>neng1238</glottocode>
+    <notes></notes>
+    <problems></problems>
+    <classification></classification>
+    <typedby>Penny Keenan</typedby>
+    <checkedby>Simon Greenhill</checkedby>
 </record>
 
 <record>
-	<id>93340</id>
-	<word_id>4</word_id>
-	<word>leg/foot</word>
-	<item>iñtërnâtiônàlizætiøn</item>
-	<annotation></annotation>
-	<loan></loan>
-	<cognacy>13</cognacy>
-	<pmpcognacy></pmpcognacy>
+    <id>93340</id>
+    <word_id>4</word_id>
+    <word>leg/foot</word>
+    <item>iñtërnâtiônàlizætiøn</item>
+    <annotation></annotation>
+    <loan></loan>
+    <cognacy>13</cognacy>
+    <pmpcognacy></pmpcognacy>
 </record>
 
 <record>
@@ -112,28 +116,29 @@ XML_UNKNOWN_RECORD = """
 
 XML_NO_LANGUAGE = """
 <record>
-	<id>93340</id>
-	<word_id>4</word_id>
-	<word>leg/foot</word>
-	<item>iñtërnâtiônàlizætiøn</item>
-	<annotation></annotation>
-	<loan></loan>
-	<cognacy>13</cognacy>
-	<pmpcognacy></pmpcognacy>
+    <id>93340</id>
+    <word_id>4</word_id>
+    <word>leg/foot</word>
+    <item>iñtërnâtiônàlizætiøn</item>
+    <annotation></annotation>
+    <loan></loan>
+    <cognacy>13</cognacy>
+    <pmpcognacy></pmpcognacy>
 </record>
 """
 
 XML_NO_LEXICON = """
 <record>
-	<id>99</id>
-	<language>Nengone</language>
-	<author>Blust</author>
-	<silcode>nen</silcode>
-	<notes></notes>
-	<problems></problems>
-	<classification></classification>
-	<typedby>Penny Keenan</typedby>
-	<checkedby>Simon Greenhill</checkedby>
+    <id>99</id>
+    <language>Nengone</language>
+    <author>Blust</author>
+    <silcode>nen</silcode>
+    <glottocode>neng1238</glottocode>
+    <notes></notes>
+    <problems></problems>
+    <classification></classification>
+    <typedby>Penny Keenan</typedby>
+    <checkedby>Simon Greenhill</checkedby>
 </record>
 """
 

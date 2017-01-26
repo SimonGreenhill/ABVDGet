@@ -58,6 +58,7 @@ class TestABVD(unittest.TestCase):
         assert d['id'] == '99'
         assert d['language'] == 'Nengone'
         assert d['silcode'] == 'nen'
+        assert d['glottocode'] == 'neng1238'
     
     def test_get_location(self):
         d = self.abvd.get_location(TESTDATA)
