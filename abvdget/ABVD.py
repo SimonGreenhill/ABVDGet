@@ -3,7 +3,6 @@
 
 import json
 import codecs
-import unicodedata
 from xml.dom import minidom
 from functools import lru_cache
 
@@ -11,8 +10,7 @@ try:
     import requests
 except ImportError:  # pragma: no cover
     pass
-    
-from .tools import slugify, clean
+
 
 URL = "http://language.psy.auckland.ac.nz/utils/save/?type=xml&section=%(db)s&language=%(id)d"
 
@@ -50,7 +48,9 @@ class Record(object):
         self.Cognacy = Cognacy
     
     def __repr__(self):
-        return "<Record %s - %s - %s - %s>" % (self.ID, self.Language, self.Word, self.Item)
+        return "<Record %s - %s - %s - %s>" % (
+            self.ID, self.Language, self.Word, self.Item
+        )
     
     @property
     def is_loan(self):
@@ -108,9 +108,10 @@ class Downloader(object):
     
     def write(self, filename):  # pragma: no cover
         with codecs.open(filename, 'w', encoding="utf8") as handle:
-            handle.write(
-                json.dumps(self.data, sort_keys=True, indent=2, separators=(',', ': '), ensure_ascii=False)
-            )
+            handle.write(json.dumps(
+                self.data, sort_keys=True, indent=2,
+                separators=(',', ': '), ensure_ascii=False
+            ))
 
 
 class Parser(object):
@@ -131,7 +132,7 @@ class Parser(object):
     def is_lexicon_2(self, adict):
         expected = [
             'id', 'word_id', 'word',
-            'source_id', 'source', 
+            'source_id', 'source',
             'item', 'annotation', 'loan', 'cognacy',
         ]
         return all([e in adict.keys() for e in expected])
@@ -184,7 +185,7 @@ class Parser(object):
 
 
 class ABVDatabase(object):
-    def __init__(self, files=None, check=True, strict=True, uniques=True):
+    def __init__(self, files=None):
         self.files = {}
         self.records = None
         
@@ -211,15 +212,15 @@ class ABVDatabase(object):
             d = self.get_details(filename)
             for e in self.get_lexicon(filename):
                 self.records.append(Record(
-                    LID = int(d['id']),
-                    ID = int(e['id']),
-                    WID = int(e['word_id']),
-                    Language = d['language'],
-                    Word = e['word'],
-                    Item = e['item'],
-                    Annotation = e['annotation'],
-                    Loan = e['loan'],
-                    Cognacy = e['cognacy'],
+                    LID=int(d['id']),
+                    ID=int(e['id']),
+                    WID=int(e['word_id']),
+                    Language=d['language'],
+                    Word=e['word'],
+                    Item=e['item'],
+                    Annotation=e['annotation'],
+                    Loan=e['loan'],
+                    Cognacy=e['cognacy'],
                 ))
         return self.records
         
