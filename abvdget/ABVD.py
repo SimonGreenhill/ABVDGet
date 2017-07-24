@@ -12,7 +12,7 @@ except ImportError:  # pragma: no cover
     pass
 
 
-URL = "http://language.psy.auckland.ac.nz/utils/save/?type=xml&section=%(db)s&language=%(id)d"
+URL = "http://abvd.shh.mpg.de/utils/save/?type=xml&section=%(db)s&language=%(id)d"
 
 
 XMLTEMPLATE = """
