@@ -204,23 +204,27 @@ class ABVDatabase(object):
         return self.files[filename]['location']
 
     def get_lexicon(self, filename):
-        return self.files[filename]['lexicon']
-
+        d = self.get_details(filename)
+        for r in self.files[filename]['lexicon']:
+            yield self.to_record(d, r)
+    
+    def to_record(self, details, entry):
+        return Record(
+            LID=int(details['id']),
+            ID=int(entry['id']),
+            WID=int(entry['word_id']),
+            Language=details['language'],
+            Word=entry['word'],
+            Item=entry['item'],
+            Annotation=entry['annotation'],
+            Loan=entry['loan'],
+            Cognacy=entry['cognacy']
+        )
+    
     def process(self):
         self.records = []
         for filename in self.files:
             d = self.get_details(filename)
-            for e in self.get_lexicon(filename):
-                self.records.append(Record(
-                    LID=int(d['id']),
-                    ID=int(e['id']),
-                    WID=int(e['word_id']),
-                    Language=d['language'],
-                    Word=e['word'],
-                    Item=e['item'],
-                    Annotation=e['annotation'],
-                    Loan=e['loan'],
-                    Cognacy=e['cognacy'],
-                ))
+            self.records.extend(self.get_lexicon(filename))
         return self.records
         
