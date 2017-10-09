@@ -281,7 +281,7 @@ class ABVDatabase(object):
         with codecs.open(filename, 'w', encoding="utf8") as out:
             out.write("\t".join([
                 "ID", "ISO", "Language", "Slug", "NLexemes", "NCognates",
-                "Latitude", "Longitude", "Classification"
+                "Author", "Latitude", "Longitude", "Classification"
             ]))
             out.write("\n")
             for f in self.files:
@@ -296,6 +296,7 @@ class ABVDatabase(object):
                     taxon,
                     '%d' % self.get_nlexemes(f),
                     '%d' % self.get_ncognates(f),
+                    denone(lang['author']),
                     fmt_loc(loc['latitude']),
                     fmt_loc(loc['longitude']),
                     denone(lang['classification']),
