@@ -7,8 +7,7 @@ __license__ = 'New-style BSD'
 
 import os
 import unittest
-import tempfile
-from abvdget import Downloader
+from abvdget import Downloader, DeadLanguageError, InvalidLanguageError
 
 
 class Test_Downloader(unittest.TestCase):
@@ -24,3 +23,14 @@ class Test_Downloader(unittest.TestCase):
         url = Downloader('bantu').make_url('999')
         assert url.endswith('999')
         assert 'bantu' in url
+    
+    def test_is_valid_language(self):
+        d = Downloader('austronesian')
+        with self.assertRaises(InvalidLanguageError):
+            d.is_valid_language("A")
+        with self.assertRaises(InvalidLanguageError):
+            d.is_valid_language("Maori")
+        with self.assertRaises(DeadLanguageError):
+            d.is_valid_language(261)
+        # but 261 is only invalid in austronesian
+        assert Downloader("bantu").is_valid_language(261)

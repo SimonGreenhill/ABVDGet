@@ -1,5 +1,6 @@
 import os
 import unittest
+import tempfile
 
 from abvdget import ABVDatabase, Record
 
@@ -64,12 +65,16 @@ class TestABVD(unittest.TestCase):
         d = self.abvd.get_location(TESTDATA)
         assert d['latitude'] == "-21.53484700204878876661"
         assert d['longitude'] == "167.98095703125000000000"
-        
+    
     def test_process(self):
         for r in self.abvd.process():
             assert r.ID in EXPECTED
             for k in EXPECTED[r.ID]:
-                self.assertEqual(
-                    EXPECTED[r.ID][k],
-                    getattr(r, k)
-                )
+                self.assertEqual(EXPECTED[r.ID][k], getattr(r, k))
+    
+    def test_save_details(self):
+        with tempfile.NamedTemporaryFile() as out:
+            self.abvd.save_details(out.name)
+            out.seek(0)
+            content = out.readlines()
+        assert len(content) == 2  # two lines, header and Nengone

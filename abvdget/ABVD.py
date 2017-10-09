@@ -6,6 +6,8 @@ import codecs
 from xml.dom import minidom
 from functools import lru_cache
 
+from abvdget.tools import slugify
+
 try:
     import requests
 except ImportError:  # pragma: no cover
@@ -27,10 +29,15 @@ DATABASES = [
     'utoaztecan',
 ]
 
-DEAD_LANGUAGES = [
-    261,  # Futuna-Aniwa
-    874,  # proto-philippines
-]
+DEAD_LANGUAGES = {
+    'bantu': [],
+    'mayan': [],
+    'utoaztecan': [],
+    'austronesian': [
+        261,  # Futuna-Aniwa
+        874,  # proto-philippines
+    ],
+}
 
 
 class DeadLanguageError(ValueError):
@@ -102,9 +109,7 @@ class Downloader(object):
     
     @lru_cache(maxsize=2000)
     def get(self, language_id):  # pragma: no cover
-        if language_id in DEAD_LANGUAGES:
-            raise DeadLanguageError("Language %d has been removed" % language_id)
-        
+        language_id = self.is_valid_language(language_id)
         req = requests.get(self.make_url(language_id))
         
         # fail on no content
@@ -127,6 +132,13 @@ class Downloader(object):
                 separators=(',', ': '), ensure_ascii=False
             ))
     
+    def is_valid_language(self, language_id):
+        if not isinstance(language_id, int):
+            raise InvalidLanguageError("Language id must be an integer")
+        if language_id in DEAD_LANGUAGES[self.database]:
+            raise DeadLanguageError("Language %d has been removed" % language_id)
+        return language_id
+        
     def get_to_file(self, language_id, filename):  # pragma: no cover
         self.write(filename, self.get(language_id))
 
@@ -244,4 +256,40 @@ class ABVDatabase(object):
             d = self.get_details(filename)
             self.records.extend(self.get_lexicon(filename))
         return self.records
-        
+    
+    def save_details(self, filename):
+        def denone(v):
+            return '' if v is None else v
+    
+        def check_tabs(v):
+            assert "\t" not in v
+    
+        with codecs.open(filename, 'w', encoding="utf8") as out:
+            out.write("\t".join([
+                "ID", "ISO", "Language", "Slug", "Latitude", "Longitude", "Classification"
+            ]))
+            out.write("\n")
+            for f in self.files:
+                lang = self.get_details(f)
+                loc = self.get_location(f)
+                taxon = slugify(next(self.get_lexicon(f)).get_taxon())
+                loc = {'longitude': '-', 'latitude': '-'} if loc is None else loc
+                line = [
+                    lang['id'],
+                    denone(lang['silcode']),
+                    lang['language'],
+                    taxon,
+                    loc['latitude'],
+                    loc['longitude'],
+                    denone(lang['classification']),
+                ]
+                try:
+                    [check_tabs(v) for v in line]
+                except (AssertionError, TypeError):  # pragma: no cover
+                    print("ERROR", line)
+                    raise
+                out.write("\t".join(line))
+                out.write("\n")
+        return
+
+    
