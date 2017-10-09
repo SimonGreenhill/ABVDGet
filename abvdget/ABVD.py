@@ -11,9 +11,7 @@ try:
 except ImportError:  # pragma: no cover
     pass
 
-
 URL = "http://abvd.shh.mpg.de/utils/save/?type=xml&section=%(db)s&language=%(id)d"
-
 
 XMLTEMPLATE = """
 <?xml version="1.0" encoding="utf-8"?>
@@ -22,13 +20,25 @@ XMLTEMPLATE = """
 </abvd>
 """.lstrip().rstrip()
 
-
 DATABASES = [
     'austronesian',
     'bantu',
     'mayan',
     'utoaztecan',
 ]
+
+DEAD_LANGUAGES = [
+    261,  # Futuna-Aniwa
+    874,  # proto-philippines
+]
+
+
+class DeadLanguageError(ValueError):
+    pass
+
+
+class InvalidLanguageError(ValueError):
+    pass
 
 
 
@@ -92,12 +102,15 @@ class Downloader(object):
     
     @lru_cache(maxsize=2000)
     def get(self, language_id):  # pragma: no cover
+        if language_id in DEAD_LANGUAGES:
+            raise DeadLanguageError("Language %d has been removed" % language_id)
+        
         req = requests.get(self.make_url(language_id))
         
         # fail on no content
-        if len(req.content) == 0:
-            return None
-        
+        if len(req.content) == 0 or req.content.strip() == 'null':
+            raise InvalidLanguageError("Language %d does not exist" % language_id)
+            
         try:
             content = req.content.decode('utf8')
         except:
@@ -106,12 +119,16 @@ class Downloader(object):
         self.data = Parser().parse(content)
         return self.data
     
-    def write(self, filename):  # pragma: no cover
+    def write(self, filename, content=None):  # pragma: no cover
         with codecs.open(filename, 'w', encoding="utf8") as handle:
             handle.write(json.dumps(
-                self.data, sort_keys=True, indent=2,
+                content if content else self.data,
+                sort_keys=True, indent=2,
                 separators=(',', ': '), ensure_ascii=False
             ))
+    
+    def get_to_file(self, language_id, filename):  # pragma: no cover
+        self.write(filename, self.get(language_id))
 
 
 class Parser(object):
