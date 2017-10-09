@@ -263,7 +263,10 @@ class ABVDatabase(object):
     
         def check_tabs(v):
             assert "\t" not in v
-    
+        
+        def fmt_loc(v):
+            return "%0.4f" % float(v) if v != '-' else v
+        
         with codecs.open(filename, 'w', encoding="utf8") as out:
             out.write("\t".join([
                 "ID", "ISO", "Language", "Slug", "Latitude", "Longitude", "Classification"
@@ -279,8 +282,8 @@ class ABVDatabase(object):
                     denone(lang['silcode']),
                     lang['language'],
                     taxon,
-                    loc['latitude'],
-                    loc['longitude'],
+                    fmt_loc(loc['latitude']),
+                    fmt_loc(loc['longitude']),
                     denone(lang['classification']),
                 ]
                 try:
