@@ -237,6 +237,17 @@ class ABVDatabase(object):
         for r in self.files[filename]['lexicon']:
             yield self.to_record(d, r)
     
+    @lru_cache(maxsize=2000)
+    def get_nlexemes(self, filename):
+        return len(list(self.get_lexicon(filename)))
+
+    @lru_cache(maxsize=2000)
+    def get_ncognates(self, filename):
+        return len([
+            r for r in self.get_lexicon(filename)
+            if r.Cognacy is not None
+        ])
+    
     def to_record(self, details, entry):
         return Record(
             LID=int(details['id']),
@@ -269,7 +280,8 @@ class ABVDatabase(object):
         
         with codecs.open(filename, 'w', encoding="utf8") as out:
             out.write("\t".join([
-                "ID", "ISO", "Language", "Slug", "Latitude", "Longitude", "Classification"
+                "ID", "ISO", "Language", "Slug", "NLexemes", "NCognates",
+                "Latitude", "Longitude", "Classification"
             ]))
             out.write("\n")
             for f in self.files:
@@ -282,6 +294,8 @@ class ABVDatabase(object):
                     denone(lang['silcode']),
                     lang['language'],
                     taxon,
+                    '%d' % self.get_nlexemes(f),
+                    '%d' % self.get_ncognates(f),
                     fmt_loc(loc['latitude']),
                     fmt_loc(loc['longitude']),
                     denone(lang['classification']),

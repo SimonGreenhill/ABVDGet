@@ -66,6 +66,12 @@ class TestABVD(unittest.TestCase):
         assert d['latitude'] == "-21.53484700204878876661"
         assert d['longitude'] == "167.98095703125000000000"
     
+    def test_get_nlexemes(self):
+        assert self.abvd.get_nlexemes(TESTDATA) == 4
+
+    def test_get_ncognates(self):
+        assert self.abvd.get_ncognates(TESTDATA) == 3
+    
     def test_process(self):
         for r in self.abvd.process():
             assert r.ID in EXPECTED
