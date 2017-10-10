@@ -248,6 +248,10 @@ class ABVDatabase(object):
             if r.Cognacy is not None
         ])
     
+    def get_slug_for(self, filename):
+        d = self.get_details(filename)
+        return "%s_%s" % (slugify(d['language']), d['id'])
+    
     def to_record(self, details, entry):
         return Record(
             LID=int(details['id']),

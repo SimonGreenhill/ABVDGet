@@ -78,6 +78,9 @@ class TestABVD(unittest.TestCase):
             for k in EXPECTED[r.ID]:
                 self.assertEqual(EXPECTED[r.ID][k], getattr(r, k))
     
+    def test_get_slug_for(self):
+        self.assertEqual(self.abvd.get_slug_for(TESTDATA), 'Nengone_99')
+    
     def test_save_details(self):
         with tempfile.NamedTemporaryFile() as out:
             self.abvd.save_details(out.name)
