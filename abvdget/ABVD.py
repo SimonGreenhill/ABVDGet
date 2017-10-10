@@ -290,14 +290,13 @@ class ABVDatabase(object):
             out.write("\n")
             for f in self.files:
                 lang = self.get_details(f)
-                taxon = slugify(next(self.get_lexicon(f)).get_taxon())
                 loc = self.get_location(f)
                 loc = {'longitude': '-', 'latitude': '-'} if loc is None else loc
                 line = [
                     lang['id'],
                     denone(lang['silcode']),
                     lang['language'],
-                    taxon,
+                    self.get_slug_for(f),
                     '%d' % self.get_nlexemes(f),
                     '%d' % self.get_ncognates(f),
                     denone(lang['author']),
