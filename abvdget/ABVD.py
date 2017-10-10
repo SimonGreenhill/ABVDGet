@@ -227,7 +227,11 @@ class ABVDatabase(object):
             self.files[filename] = json.load(handle, encoding="utf8")
     
     def get_details(self, filename):
-        return self.files[filename]['language']
+        d = self.files[filename].get('language')
+        if d is None:
+            raise ValueError("Data for %s not loaded" % filename)
+        d['filename'] = filename
+        return d
 
     def get_location(self, filename):
         return self.files[filename]['location']
@@ -248,9 +252,9 @@ class ABVDatabase(object):
             if r.Cognacy is not None
         ])
     
-    def get_slug_for(self, filename):
-        d = self.get_details(filename)
-        return "%s_%s" % (slugify(d['language']), d['id'])
+    @lru_cache(maxsize=2000)
+    def get_slug_for(self, taxon, id):
+        return "%s_%s" % (slugify(taxon), id)
     
     def to_record(self, details, entry):
         return Record(
@@ -292,11 +296,12 @@ class ABVDatabase(object):
                 lang = self.get_details(f)
                 loc = self.get_location(f)
                 loc = {'longitude': '-', 'latitude': '-'} if loc is None else loc
+                taxon = self.get_slug_for(lang['language'], lang['id'])
                 line = [
                     lang['id'],
                     denone(lang['silcode']),
                     lang['language'],
-                    self.get_slug_for(f),
+                    taxon,
                     '%d' % self.get_nlexemes(f),
                     '%d' % self.get_ncognates(f),
                     denone(lang['author']),

@@ -61,6 +61,10 @@ class TestABVD(unittest.TestCase):
         assert d['silcode'] == 'nen'
         assert d['glottocode'] == 'neng1238'
     
+    def test_get_details_injects_filename(self):
+        d = self.abvd.get_details(TESTDATA)
+        assert d.get('filename') == TESTDATA
+    
     def test_get_location(self):
         d = self.abvd.get_location(TESTDATA)
         assert d['latitude'] == "-21.53484700204878876661"
@@ -79,7 +83,7 @@ class TestABVD(unittest.TestCase):
                 self.assertEqual(EXPECTED[r.ID][k], getattr(r, k))
     
     def test_get_slug_for(self):
-        self.assertEqual(self.abvd.get_slug_for(TESTDATA), 'Nengone_99')
+        self.assertEqual(self.abvd.get_slug_for('Nengone', '99'), 'Nengone_99')
     
     def test_save_details(self):
         with tempfile.NamedTemporaryFile() as out:
