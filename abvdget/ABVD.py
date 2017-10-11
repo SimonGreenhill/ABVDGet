@@ -84,7 +84,7 @@ class Record(object):
         if self.LID is None:
             return self.Language
         else:
-            return "%s_%d" % (self.Language, self.LID)
+            return "%s_%d" % (slugify(self.Language), self.LID)
 
 
 

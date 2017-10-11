@@ -24,13 +24,21 @@ class TestRecord(unittest.TestCase):
         assert Record(Loan="English").is_loan
         assert Record(Loan=True).is_loan
     
-    def test_get_token(self):
+    def test_get_taxon(self):
         r = Record(ID=1, WID=2, LID=3, Language='English', Word='Hand', Item='hand', Annotation='?', Cognacy=None, Loan="L")
         assert r.get_taxon() == "English_3"
         r = Record(ID=1, WID=2, LID=None, Language='English', Word='Hand', Item='hand', Annotation='?', Cognacy=None, Loan="L")
         assert r.get_taxon() == "English"
     
+    def test_get_taxon_spaces(self):
+       r = Record(ID=1, WID=2, LID=583, Language='Arosi (Oneibia Village)', Word='Hand', Item='hand', Annotation='?', Cognacy=None, Loan="L")
+       assert r.get_taxon() == "Arosi_Oneibia_Village_583"
+      
+    def test_get_taxon_unicode(self):
+       r = Record(ID=1, WID=2, LID=1502, Language='Wamoaŋ', Word='Hand', Item='hand', Annotation='?', Cognacy=None, Loan="L")
+       assert r.get_taxon() == "Wamoang_1502"
+    
     def test_repr(self):
        r = Record(ID=1, WID=2, LID=3, Language='English', Word='Hand', Item='hand', Annotation='?', Cognacy=None, Loan="L")
        repr(r)
-       
+      
