@@ -60,5 +60,8 @@ class Test_Slugify(unittest.TestCase):
     def test_e(self):
         self.assertEqual(slugify('Moaekɛ'), 'Moaeke')
     
+    def test_palatal_nasal(self):
+        self.assertEqual(slugify('Ɲua'), 'Njua')
+    
     def test_another_apostrophe(self):
         self.assertEqual(slugify('‘Aragur'), 'Aragur')
