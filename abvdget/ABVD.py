@@ -216,6 +216,7 @@ class Parser(object):
 class ABVDatabase(object):
     def __init__(self, files=None):
         self.files = {}
+        self._lexicon_by_file = {}
         self.records = None
         
         if files:
@@ -237,10 +238,13 @@ class ABVDatabase(object):
         return self.files[filename]['location']
 
     def get_lexicon(self, filename):
-        d = self.get_details(filename)
-        for r in self.files[filename]['lexicon']:
-            yield self.to_record(d, r)
-    
+        if filename not in self._lexicon_by_file:
+            self._lexicon_by_file[filename] = []
+            d = self.get_details(filename)
+            for r in self.files[filename]['lexicon']:
+                self._lexicon_by_file[filename].append(self.to_record(d, r))
+        yield from self._lexicon_by_file[filename]
+        
     @lru_cache(maxsize=2000)
     def get_nlexemes(self, filename):
         return len(list(self.get_lexicon(filename)))
