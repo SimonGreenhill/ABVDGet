@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-#coding=utf-8
+# coding=utf-8
 
 import json
 import codecs
@@ -48,12 +48,9 @@ class InvalidLanguageError(ValueError):
     pass
 
 
-
 class Record(object):
-    def __init__(self,
-        ID=None, LID=None, WID=None, Language=None, Word=None, Item=None,
-        Annotation=None, Loan=None, Cognacy=None
-    ):
+    """Data Class for Lexical Records."""
+    def __init__(self, ID=None, LID=None, WID=None, Language=None, Word=None, Item=None, Annotation=None, Loan=None, Cognacy=None):
         self.ID = ID
         self.LID = LID
         self.WID = WID
@@ -63,14 +60,15 @@ class Record(object):
         self.Annotation = Annotation
         self.Loan = Loan
         self.Cognacy = Cognacy
-    
+
     def __repr__(self):
         return "<Record %s - %s - %s - %s>" % (
             self.ID, self.Language, self.Word, self.Item
         )
-    
+
     @property
     def is_loan(self):
+        """Is this lexeme a loan."""
         if self.Loan is None:
             return False
         elif self.Loan in (False, ""):
@@ -79,7 +77,7 @@ class Record(object):
             return True
         else:
             return True
-    
+
     def get_taxon(self):
         if self.LID is None:
             return self.Language
@@ -283,17 +281,17 @@ class ABVDatabase(object):
     def save_details(self, filename):
         def denone(v):
             return '' if v is None else v
-    
+
         def check_tabs(v):
             assert "\t" not in v
-        
+
         def fmt_loc(v):
             return "%0.4f" % float(v) if v != '-' else v
         
         with codecs.open(filename, 'w', encoding="utf8") as out:
             out.write("\t".join([
-                "ID", "ISO", "Language", "Slug", "NLexemes", "NCognates",
-                "Author", "Latitude", "Longitude", "Classification"
+                "ID", "ISO", "Glottocode", "Language", "Slug", "NLexemes",
+                "NCognates","Author", "Latitude", "Longitude", "Classification"
             ]))
             out.write("\n")
             for f in self.files:
@@ -304,6 +302,7 @@ class ABVDatabase(object):
                 line = [
                     lang['id'],
                     denone(lang['silcode']),
+                    denone(lang['glottocode']),
                     lang['language'],
                     taxon,
                     '%d' % self.get_nlexemes(f),
@@ -321,5 +320,3 @@ class ABVDatabase(object):
                 out.write("\t".join(line))
                 out.write("\n")
         return
-
-    
