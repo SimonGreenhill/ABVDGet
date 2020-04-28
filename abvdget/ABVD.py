@@ -113,7 +113,7 @@ class Downloader(object):
         # fail on no content
         if len(req.content) == 0 or req.content.strip() == 'null':
             raise InvalidLanguageError("Language %d does not exist" % language_id)
-            
+        
         try:
             content = req.content.decode('utf8')
         except:
@@ -301,16 +301,16 @@ class ABVDatabase(object):
                 taxon = self.get_slug_for(lang['language'], lang['id'])
                 line = [
                     lang['id'],
-                    denone(lang['silcode']),
-                    denone(lang['glottocode']),
-                    lang['language'],
+                    denone(lang['silcode']).strip(),
+                    denone(lang['glottocode']).strip(),
+                    lang['language'].strip(),
                     taxon,
                     '%d' % self.get_nlexemes(f),
                     '%d' % self.get_ncognates(f),
-                    denone(lang['author']),
+                    denone(lang['author']).strip(),
                     fmt_loc(loc['latitude']),
                     fmt_loc(loc['longitude']),
-                    denone(lang['classification']),
+                    denone(lang['classification']).strip(),
                 ]
                 try:
                     [check_tabs(v) for v in line]
