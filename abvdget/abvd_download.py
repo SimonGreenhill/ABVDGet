@@ -5,6 +5,7 @@ import argparse
 
 from .ABVD import DATABASES, Downloader
 from . import __version__
+import json
 
 def parse_args(args):
     """
@@ -34,4 +35,4 @@ def main(args=None):  # pragma: no cover
     if outfile:
         d.write(outfile)
     else:
-        print(d.data)
+        print(json.dumps(d.data, sort_keys=True, indent=2, ensure_ascii=False))
