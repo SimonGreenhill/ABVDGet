@@ -272,10 +272,11 @@ class ABVDatabase(object):
         )
     
     def process(self):
-        self.records = []
-        for filename in self.files:
-            d = self.get_details(filename)
-            self.records.extend(self.get_lexicon(filename))
+        if not self.records:
+            self.records = []
+            for filename in self.files:
+                d = self.get_details(filename)
+                self.records.extend(self.get_lexicon(filename))
         return self.records
     
     def save_details(self, filename):
