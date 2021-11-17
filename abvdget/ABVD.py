@@ -223,7 +223,7 @@ class ABVDatabase(object):
         
     def load(self, filename):
         with codecs.open(filename, 'r', encoding="utf8") as handle:
-            self.files[filename] = json.load(handle, encoding="utf8")
+            self.files[filename] = json.load(handle)
     
     def get_details(self, filename):
         d = self.files[filename].get('language')
