@@ -127,7 +127,7 @@ class Downloader(object):
             handle.write(json.dumps(
                 content if content else self.data,
                 sort_keys=True, indent=2,
-                separators=(',', ': '), ensure_ascii=False
+                ensure_ascii=False
             ))
     
     def is_valid_language(self, language_id):
