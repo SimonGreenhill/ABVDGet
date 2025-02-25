@@ -13,7 +13,7 @@ try:
 except ImportError:  # pragma: no cover
     pass
 
-URL = "http://abvd.shh.mpg.de/utils/save/?type=xml&section=%(db)s&language=%(id)d"
+URL = "http://abvd.eva.mpg.de/utils/save/?type=xml&section=%(db)s&language=%(id)d"
 
 XMLTEMPLATE = """
 <?xml version="1.0" encoding="utf-8"?>
@@ -321,3 +321,4 @@ class ABVDatabase(object):
                 out.write("\t".join(line))
                 out.write("\n")
         return
+
