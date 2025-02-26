@@ -1,15 +1,12 @@
 .PHONY: build release test clean
 
 build:
-	python setup.py sdist bdist_wheel
+	uv build
 
 release:
-	python setup.py sdist bdist_wheel upload
+	uv publish
 
 test:
-	rm -rf build
 	uv run py.test --cov=abvdget
 
-clean:
-	rm -rf build/*
 

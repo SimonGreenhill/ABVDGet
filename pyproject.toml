@@ -1,6 +1,6 @@
 [project]
 name = "abvdget"
-version = "0.1.0"
+version = "2.0"
 description = "Download data from the Austronesian Basic Vocabulary Database"
 authors = [
   {name = "Simon J. Greenhill", email = "simon@simon.net.nz"}
