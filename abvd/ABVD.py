@@ -171,7 +171,9 @@ class Parser(object):
         return all([e in adict.keys() for e in expected])
 
     def parse(self, content):
-        xml = minidom.parseString(XMLTEMPLATE % content)
+        if not content.startswith('<?xml version="1.0" encoding="utf-8"?>'):
+            content = XMLTEMPLATE % content
+        xml = minidom.parseString(content)
         entities = {'language': None, 'lexicon': [], 'location': None}
         for node in xml.getElementsByTagName('record'):
             content = {}
