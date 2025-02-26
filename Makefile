@@ -8,7 +8,7 @@ release:
 
 test:
 	rm -rf build
-	py.test --cov=abvdget
+	uv run py.test --cov=abvdget
 
 clean:
 	rm -rf build/*

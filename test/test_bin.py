@@ -7,7 +7,7 @@ __license__ = 'New-style BSD'
 
 import unittest
 
-from abvdget.abvd_download import parse_args as abvd_download_parse_args
+from abvd.abvd_download import parse_args as abvd_download_parse_args
 
 
 class TestABVDDownload_ParseArgs(unittest.TestCase):

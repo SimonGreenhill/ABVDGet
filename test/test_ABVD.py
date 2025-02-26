@@ -2,7 +2,7 @@ import os
 import unittest
 import tempfile
 
-from abvdget import ABVDatabase, Record
+from abvd import ABVDatabase, Record
 
 TESTDATA = os.path.join(os.path.dirname(__file__), 'nengone.json')
 

@@ -7,7 +7,7 @@ __license__ = 'New-style BSD'
 
 import os
 import unittest
-from abvdget import Downloader, DeadLanguageError, InvalidLanguageError
+from abvd import Downloader, DeadLanguageError, InvalidLanguageError
 
 
 class Test_Downloader(unittest.TestCase):

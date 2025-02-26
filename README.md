@@ -3,7 +3,7 @@
 ## Download data:
 
 ```
-from abvdget import Downloader
+from abvd import Downloader
 content = Downloader('austronesian').get(1)
 
 d = Downloader('austronesian')

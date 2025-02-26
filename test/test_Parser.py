@@ -10,7 +10,7 @@ import codecs
 import unittest
 from xml.dom import minidom
 
-from abvdget import Parser
+from abvd import Parser
 
 TESTDATA = os.path.join(os.path.dirname(__file__), 'nengone.xml')
 

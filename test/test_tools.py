@@ -7,7 +7,7 @@ __license__ = 'New-style BSD'
 
 import unittest
 
-from abvdget.tools import clean, slugify
+from abvd.tools import clean, slugify
 
 
 class TestClean(unittest.TestCase):

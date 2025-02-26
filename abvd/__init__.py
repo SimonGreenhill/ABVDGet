@@ -1,4 +1,4 @@
-__version__ = 1.8
+__version__ = 2.0
 
 from .ABVD import ABVDatabase, Downloader, Parser, Record
 from .ABVD import DeadLanguageError, InvalidLanguageError

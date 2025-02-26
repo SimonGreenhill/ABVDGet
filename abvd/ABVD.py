@@ -6,14 +6,12 @@ import codecs
 from xml.dom import minidom
 from functools import lru_cache
 
-from abvdget.tools import slugify
+from abvd.tools import slugify
 
-try:
-    import requests
-except ImportError:  # pragma: no cover
-    pass
+import httpx
 
-URL = "http://abvd.eva.mpg.de/utils/save/?type=xml&section=%(db)s&language=%(id)d"
+
+URL = "https://abvd.eva.mpg.de/utils/save/?type=xml&section=%(db)s&language=%(id)d"
 
 XMLTEMPLATE = """
 <?xml version="1.0" encoding="utf-8"?>
@@ -94,7 +92,6 @@ class Downloader(object):
         if database not in self.databases:
             raise ValueError("Unknown Database: %s" % database)
         self.database = database
-        self.data = None
         self.url = URL
         
     def make_url(self, language_id):
@@ -106,9 +103,9 @@ class Downloader(object):
         return self.url % {'db': self.database, 'id': language_id}
     
     @lru_cache(maxsize=2000)
-    def get(self, language_id):  # pragma: no cover
+    def get(self, language_id, raw=False):  # pragma: no cover
         language_id = self.is_valid_language(language_id)
-        req = requests.get(self.make_url(language_id))
+        req = httpx.get(self.make_url(language_id))
         
         # fail on no content
         if len(req.content) == 0 or req.content.strip() == 'null':
@@ -118,17 +115,22 @@ class Downloader(object):
             content = req.content.decode('utf8')
         except:
             raise
-            
-        self.data = Parser().parse(content)
-        return self.data
+
+        if raw:
+            return content
+        else:
+            return Parser().parse(content)
     
-    def write(self, filename, content=None):  # pragma: no cover
+    def write(self, filename, content=None, xml=None):  # pragma: no cover
+        if content:
+            out = json.dumps(content, sort_keys=True, indent=2, ensure_ascii=False)
+        elif xml:
+            out = xml
+        else:
+            raise ValueError("need either content (JSON) or xml (XML) specified.")
+
         with codecs.open(filename, 'w', encoding="utf8") as handle:
-            handle.write(json.dumps(
-                content if content else self.data,
-                sort_keys=True, indent=2,
-                ensure_ascii=False
-            ))
+            handle.write(out)
     
     def is_valid_language(self, language_id):
         if not isinstance(language_id, int):
@@ -137,8 +139,8 @@ class Downloader(object):
             raise DeadLanguageError("Language %d has been removed" % language_id)
         return language_id
         
-    def get_to_file(self, language_id, filename):  # pragma: no cover
-        self.write(filename, self.get(language_id))
+    def get_to_file(self, language_id, filename, raw=False):  # pragma: no cover
+        self.write(filename, self.get(language_id, raw=raw))
 
 
 class Parser(object):

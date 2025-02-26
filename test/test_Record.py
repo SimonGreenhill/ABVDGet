@@ -1,6 +1,6 @@
 import unittest
 
-from abvdget import Record
+from abvd import Record
 
 class TestRecord(unittest.TestCase):
     
